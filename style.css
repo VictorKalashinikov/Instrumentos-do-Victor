@@ -635,3 +635,118 @@ input:focus-visible {
         animation-iteration-count: 1 !important;
     }
 }
+
+
+/* ==========================
+   ÁREA DO CLIENTE
+========================== */
+
+.account-page {
+    min-height: 100vh;
+    min-height: 100dvh;
+}
+
+.account-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px clamp(18px, 5vw, 64px);
+    border-bottom: 1px solid var(--border);
+}
+
+.logout-button {
+    min-height: 42px;
+    padding: 10px 16px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+}
+
+.logout-button:hover {
+    border-color: var(--primary);
+}
+
+.account-main {
+    width: min(100% - 40px, 720px);
+    margin: 0 auto;
+    padding: clamp(36px, 8vh, 80px) 0;
+}
+
+.account-main h1 {
+    margin-bottom: 16px;
+    font-size: clamp(28px, 5vw, 42px);
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+}
+
+.account-description {
+    margin-bottom: 32px;
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.account-card {
+    padding: clamp(20px, 4vw, 32px);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+}
+
+.account-card h2 {
+    margin-bottom: 26px;
+    font-size: 20px;
+}
+
+.account-field {
+    padding: 18px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.account-field:last-of-type {
+    border-bottom: none;
+}
+
+.account-field span {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+.account-field p {
+    font-size: 15px;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 480px) {
+    .account-header {
+        align-items: flex-start;
+        flex-wrap: wrap;
+        padding: 18px;
+    }
+
+    .account-header .logo {
+        font-size: 9px;
+        gap: 8px;
+    }
+
+    .account-header .logo-icon {
+        flex-basis: 36px;
+        width: 36px;
+        height: 36px;
+    }
+
+    .logout-button {
+        min-height: 38px;
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    .account-main {
+        width: calc(100% - 36px);
+    }
+}
