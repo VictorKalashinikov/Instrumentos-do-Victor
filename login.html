@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Instrumentos do Victor</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <main class="auth-container">
+        <section class="brand-section">
+            <a href="login.html" class="logo">
+                <span class="logo-icon">♪</span>
+                <span>INSTRUMENTOS <strong>DO VICTOR</strong></span>
+            </a>
+
+            <div class="brand-content">
+                <span class="eyebrow">SUA PAIXÃO, NOSSO SOM.</span>
+                <h1>O próximo capítulo da sua música começa aqui.</h1>
+                <p>
+                    Encontre os instrumentos certos para transformar
+                    suas ideias em música.
+                </p>
+            </div>
+
+            <span class="brand-footer">SINTA. TOQUE. CRIE.</span>
+        </section>
+
+        <section class="form-section">
+            <div class="form-wrapper">
+                <div class="mobile-logo">
+                    <a href="login.html" class="logo">
+                        <span class="logo-icon">♪</span>
+                        <span>INSTRUMENTOS <strong>DO VICTOR</strong></span>
+                    </a>
+                </div>
+
+                <span class="eyebrow">BEM-VINDO DE VOLTA</span>
+                <h2>Entrar na sua conta</h2>
+                <p class="form-description">
+                    Acesse sua conta e continue sua jornada musical.
+                </p>
+
+                <form id="loginForm" novalidate>
+                    <div class="field">
+                        <label for="email">E-mail</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="seuemail@exemplo.com"
+                            autocomplete="email"
+                            required
+                        >
+                    </div>
+
+                    <div class="field">
+                        <div class="label-row">
+                            <label for="senha">Senha</label>
+                        </div>
+
+                        <div class="password-wrapper">
+                            <input
+                                type="password"
+                                id="senha"
+                                name="senha"
+                                placeholder="Digite sua senha"
+                                autocomplete="current-password"
+                                required
+                            >
+                            <button
+                                type="button"
+                                class="toggle-password"
+                                data-target="senha"
+                                aria-label="Mostrar senha"
+                            >
+                                Mostrar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="lembrar">
+                            <span>Manter conectado</span>
+                        </label>
+
+                        <a href="#" id="forgotPassword" class="text-link">
+                            Esqueceu a senha?
+                        </a>
+                    </div>
+
+                    <p id="loginMessage" class="message" role="status"></p>
+
+                    <button type="submit" class="primary-button">
+                        Entrar na conta <span>→</span>
+                    </button>
+                </form>
+
+                <div class="separator">
+                    <span>OU</span>
+                </div>
+
+                <p class="switch-form">
+                    Ainda não tem uma conta?
+                    <a href="cadastro.html">Cadastre-se</a>
+                </p>
+
+                <p class="terms">
+                    Ao continuar, você concorda com nossos
+                    <a href="#">Termos de Uso</a> e
+                    <a href="#">Política de Privacidade</a>.
+                </p>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

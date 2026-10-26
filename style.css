@@ -1,0 +1,637 @@
+
+/* ==========================
+   1. CONFIGURAÇÕES GERAIS
+========================== */
+
+:root {
+    --background: #111111;
+    --surface: #191919;
+    --input-background: #202020;
+    --primary: #e53935;
+    --primary-hover: #ff4540;
+    --text: #f5f5f5;
+    --text-muted: #a3a3a3;
+    --border: #353535;
+    --success: #4ade80;
+    --error: #ff7777;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100%;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: var(--background);
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-wrap: break-word;
+}
+
+img,
+svg,
+video {
+    max-width: 100%;
+    height: auto;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+button,
+a,
+input {
+    -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 3px;
+}
+
+/* ==========================
+   2. ESTRUTURA PRINCIPAL
+========================== */
+
+.auth-container {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    min-height: 100vh;
+    min-height: 100dvh;
+    width: 100%;
+}
+
+/* ==========================
+   3. PAINEL DA MARCA
+========================== */
+
+.brand-section {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 0;
+    min-height: 100%;
+    padding: clamp(24px, 4vw, 64px);
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            ellipse at 15% 90%,
+            rgba(229, 57, 53, 0.18),
+            transparent 45%
+        ),
+        linear-gradient(145deg, #202020, #101010 70%);
+}
+
+.brand-section::after {
+    content: "♪";
+    position: absolute;
+    z-index: -1;
+    right: -0.05em;
+    bottom: 0;
+    color: rgba(229, 57, 53, 0.08);
+    font-size: clamp(180px, 25vw, 360px);
+    font-weight: bold;
+    line-height: 1;
+    pointer-events: none;
+}
+
+.logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 100%;
+    width: fit-content;
+    font-size: clamp(10px, 1vw, 14px);
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.logo strong {
+    color: var(--primary);
+}
+
+.logo-icon {
+    display: grid;
+    place-items: center;
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: var(--primary);
+    color: white;
+    font-size: 28px;
+}
+
+.brand-content {
+    width: 100%;
+    max-width: 500px;
+    margin: auto 0;
+    padding: clamp(30px, 5vh, 60px) 0;
+}
+
+.eyebrow {
+    display: block;
+    margin-bottom: 18px;
+    color: var(--primary);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    line-height: 1.6;
+}
+
+.brand-content h1 {
+    margin-bottom: 22px;
+    font-size: clamp(30px, 3.4vw, 52px);
+    line-height: 1.15;
+    letter-spacing: -1.5px;
+    overflow-wrap: anywhere;
+}
+
+.brand-content p {
+    max-width: 420px;
+    color: var(--text-muted);
+    font-size: clamp(14px, 1.2vw, 16px);
+    line-height: 1.8;
+}
+
+.brand-footer {
+    color: #777;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+/* ==========================
+   4. ÁREA DOS FORMULÁRIOS
+========================== */
+
+.form-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 100%;
+    padding: clamp(24px, 4vw, 64px);
+    background: var(--background);
+}
+
+.form-wrapper {
+    width: 100%;
+    max-width: 410px;
+    min-width: 0;
+    margin: auto;
+}
+
+.mobile-logo {
+    display: none;
+}
+
+.form-wrapper h2 {
+    margin-bottom: 12px;
+    font-size: clamp(25px, 2.5vw, 30px);
+    line-height: 1.25;
+    letter-spacing: -0.7px;
+    overflow-wrap: anywhere;
+}
+
+.form-description {
+    margin-bottom: 32px;
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* ==========================
+   5. CAMPOS DOS FORMULÁRIOS
+========================== */
+
+.field {
+    min-width: 0;
+    margin-bottom: 22px;
+}
+
+.field label,
+.label-row label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.field input {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    min-height: 49px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    background: var(--input-background);
+    color: var(--text);
+    font-size: 16px;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.field input::placeholder {
+    color: #777;
+    font-size: 13px;
+    opacity: 1;
+}
+
+.field input:focus {
+    border-color: var(--primary);
+    background: #242424;
+    outline: none;
+}
+
+.field input.invalid {
+    border-color: var(--error);
+}
+
+.password-wrapper {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+}
+
+.password-wrapper input {
+    padding-right: 85px;
+}
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    min-height: 36px;
+    padding: 4px;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.toggle-password:hover {
+    color: var(--text);
+}
+
+.field-hint {
+    display: block;
+    margin-top: 8px;
+    color: var(--text-muted);
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.label-row label {
+    margin-bottom: 10px;
+}
+
+/* ==========================
+   6. OPÇÕES E CHECKBOXES
+========================== */
+
+.form-options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 2px 0 24px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    min-width: 0;
+    color: var(--text-muted);
+    font-size: 12px;
+    line-height: 1.6;
+    cursor: pointer;
+}
+
+.checkbox-label input {
+    flex: 0 0 15px;
+    width: 15px;
+    height: 15px;
+    margin-top: 2px;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+.text-link,
+.switch-form a,
+.terms a,
+.consent-label a {
+    color: var(--primary);
+}
+
+.text-link {
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.text-link:hover,
+.switch-form a:hover,
+.terms a:hover,
+.consent-label a:hover {
+    text-decoration: underline;
+}
+
+.consent-label {
+    margin: 6px 0 22px;
+}
+
+/* ==========================
+   7. BOTÕES E MENSAGENS
+========================== */
+
+.primary-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    width: 100%;
+    min-height: 50px;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 7px;
+    background: var(--primary);
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.primary-button:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+.primary-button span {
+    font-size: 19px;
+}
+
+.message {
+    display: none;
+    margin: 0 0 18px;
+    font-size: 12px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.message.error {
+    display: block;
+    color: var(--error);
+}
+
+.message.success {
+    display: block;
+    color: var(--success);
+}
+
+/* ==========================
+   8. SEPARADOR E RODAPÉ
+========================== */
+
+.separator {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 28px 0;
+    color: #777;
+    font-size: 10px;
+}
+
+.separator::before,
+.separator::after {
+    content: "";
+    flex: 1;
+    min-width: 0;
+    height: 1px;
+    background: var(--border);
+}
+
+.switch-form {
+    color: var(--text-muted);
+    font-size: 13px;
+    line-height: 1.8;
+    text-align: center;
+}
+
+.switch-form a {
+    margin-left: 4px;
+    font-weight: 700;
+}
+
+.terms {
+    margin-top: 26px;
+    color: #777;
+    font-size: 10px;
+    line-height: 1.8;
+    text-align: center;
+}
+
+.terms a {
+    overflow-wrap: anywhere;
+}
+
+/* ==========================
+   9. TABLETS E NOTEBOOKS
+========================== */
+
+@media (max-width: 1024px) {
+    .brand-section {
+        padding: 32px;
+    }
+
+    .form-section {
+        padding: 32px 24px;
+    }
+
+    .brand-content h1 {
+        font-size: clamp(28px, 3.5vw, 38px);
+    }
+
+    .brand-content p {
+        font-size: 14px;
+    }
+}
+
+/* ==========================
+   10. CELULARES E TELAS ESTREITAS
+========================== */
+
+@media (max-width: 680px) {
+    .auth-container {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        min-height: 100dvh;
+    }
+
+    .brand-section {
+        display: none;
+    }
+
+    .form-section {
+        flex: 1;
+        align-items: flex-start;
+        justify-content: center;
+        min-height: 100vh;
+        min-height: 100dvh;
+        padding: 32px 24px;
+    }
+
+    .form-wrapper {
+        max-width: 430px;
+        margin: auto;
+    }
+
+    .mobile-logo {
+        display: block;
+        margin-bottom: clamp(32px, 7vh, 50px);
+    }
+
+    .mobile-logo .logo {
+        font-size: 11px;
+    }
+
+    .form-wrapper h2 {
+        font-size: 28px;
+    }
+
+    .form-description {
+        margin-bottom: 28px;
+    }
+}
+
+/* ==========================
+   11. CELULARES PEQUENOS
+========================== */
+
+@media (max-width: 380px) {
+    .form-section {
+        padding: 24px 18px;
+    }
+
+    .mobile-logo {
+        margin-bottom: 32px;
+    }
+
+    .mobile-logo .logo {
+        gap: 8px;
+        font-size: 9px;
+        letter-spacing: 0.5px;
+    }
+
+    .logo-icon {
+        flex-basis: 36px;
+        width: 36px;
+        height: 36px;
+        font-size: 24px;
+    }
+
+    .form-wrapper h2 {
+        font-size: 25px;
+    }
+
+    .form-description {
+        font-size: 13px;
+    }
+
+    .field input {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    .password-wrapper input {
+        padding-right: 76px;
+    }
+
+    .toggle-password {
+        right: 8px;
+        font-size: 11px;
+    }
+
+    .form-options {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .primary-button {
+        padding: 12px;
+    }
+}
+
+/* ==========================
+   12. TELAS BAIXAS
+========================== */
+
+@media (max-height: 650px) and (min-width: 681px) {
+    .brand-section {
+        padding-top: 24px;
+        padding-bottom: 24px;
+    }
+
+    .brand-content {
+        padding: 24px 0;
+    }
+
+    .brand-content h1 {
+        font-size: clamp(26px, 3vw, 36px);
+    }
+
+    .form-section {
+        align-items: flex-start;
+        padding-top: 24px;
+        padding-bottom: 24px;
+    }
+}
+
+/* ==========================
+   13. ACESSIBILIDADE
+========================== */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}
