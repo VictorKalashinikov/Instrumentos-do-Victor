@@ -51,14 +51,27 @@ function traduzirErro(erro) {
         return "Confirme seu e-mail antes de entrar.";
     }
 
-    if (mensagem.includes("rate limit")) {
+    if (
+        mensagem.includes("rate limit") ||
+        mensagem.includes("too many requests")
+    ) {
         return "Muitas tentativas. Aguarde um pouco e tente novamente.";
+    }
+
+    if (
+        mensagem.includes("invalid") &&
+        (mensagem.includes("token") || mensagem.includes("otp"))
+    ) {
+        return "Link inválido ou expirado. Solicite um novo e-mail de recuperação.";
     }
 
     return erro?.message || "Ocorreu um erro. Tente novamente.";
 }
 
-// Mostra e oculta as senhas.
+// ============================
+// MOSTRAR E OCULTAR SENHAS
+// ============================
+
 document.querySelectorAll(".toggle-password").forEach((botao) => {
     botao.addEventListener("click", () => {
         const campo = document.getElementById(botao.dataset.target);
@@ -69,6 +82,7 @@ document.querySelectorAll(".toggle-password").forEach((botao) => {
 
         campo.type = mostrar ? "text" : "password";
         botao.textContent = mostrar ? "Ocultar" : "Mostrar";
+
         botao.setAttribute(
             "aria-label",
             mostrar ? "Ocultar senha" : "Mostrar senha"
@@ -76,7 +90,10 @@ document.querySelectorAll(".toggle-password").forEach((botao) => {
     });
 });
 
-// Limpa o destaque de erro enquanto o usuário digita.
+// ============================
+// VALIDAÇÃO DOS CAMPOS
+// ============================
+
 document.querySelectorAll("input").forEach((campo) => {
     campo.addEventListener("input", () => {
         campo.classList.remove("invalid");
@@ -120,14 +137,13 @@ if (registerForm) {
 
             mostrarMensagem(
                 mensagem,
-                "Digite seu nome completo ou um nome com pelo menos 3 caracteres."
+                "Digite um nome com pelo menos 3 caracteres."
             );
             return;
         }
 
         if (!emailValido(email.value.trim())) {
             email.classList.add("invalid");
-
             mostrarMensagem(mensagem, "Digite um e-mail válido.");
             return;
         }
@@ -144,7 +160,6 @@ if (registerForm) {
 
         if (senha.value !== confirmarSenha.value) {
             confirmarSenha.classList.add("invalid");
-
             mostrarMensagem(mensagem, "As senhas não coincidem.");
             return;
         }
@@ -168,14 +183,13 @@ if (registerForm) {
                     data: {
                         full_name: nome.value.trim()
                     },
-                    emailRedirectTo: `${window.location.origin}/login.html`
+                    emailRedirectTo:
+                        `${window.location.origin}/index.html`
                 }
             });
 
             if (error) throw error;
 
-            // Quando a confirmação de e-mail está habilitada,
-            // a sessão normalmente ainda não está autenticada.
             if (data.session) {
                 mostrarMensagem(
                     mensagem,
@@ -196,11 +210,7 @@ if (registerForm) {
             registerForm.reset();
         } catch (erro) {
             console.error("Erro no cadastro:", erro);
-
-            mostrarMensagem(
-                mensagem,
-                traduzirErro(erro)
-            );
+            mostrarMensagem(mensagem, traduzirErro(erro));
         } finally {
             botao.disabled = false;
             botao.innerHTML = 'Criar minha conta <span>→</span>';
@@ -234,7 +244,6 @@ if (loginForm) {
 
         if (!emailValido(email.value.trim())) {
             email.classList.add("invalid");
-
             mostrarMensagem(mensagem, "Digite um e-mail válido.");
             return;
         }
@@ -259,11 +268,7 @@ if (loginForm) {
             window.location.assign("conta.html");
         } catch (erro) {
             console.error("Erro no login:", erro);
-
-            mostrarMensagem(
-                mensagem,
-                traduzirErro(erro)
-            );
+            mostrarMensagem(mensagem, traduzirErro(erro));
         } finally {
             botao.disabled = false;
             botao.innerHTML = 'Entrar na conta <span>→</span>';
@@ -316,17 +321,13 @@ if (forgotPassword) {
             );
         } catch (erro) {
             console.error("Erro ao solicitar recuperação:", erro);
-
-            mostrarMensagem(
-                mensagem,
-                traduzirErro(erro)
-            );
+            mostrarMensagem(mensagem, traduzirErro(erro));
         }
     });
 }
 
 // ============================
-// PÁGINA DE RECUPERAÇÃO
+// REDEFINIÇÃO DE SENHA
 // ============================
 
 const resetForm = document.getElementById("resetForm");
@@ -350,6 +351,8 @@ if (resetForm) {
         }
 
         if (senha.value.length < 8) {
+            senha.classList.add("invalid");
+
             mostrarMensagem(
                 mensagem,
                 "A nova senha deve ter pelo menos 8 caracteres."
@@ -359,7 +362,6 @@ if (resetForm) {
 
         if (senha.value !== confirmar.value) {
             confirmar.classList.add("invalid");
-
             mostrarMensagem(mensagem, "As senhas não coincidem.");
             return;
         }
@@ -385,7 +387,12 @@ if (resetForm) {
 
             if (error) throw error;
 
-            await supabaseClient.auth.signOut();
+            const { error: logoutError } =
+                await supabaseClient.auth.signOut();
+
+            if (logoutError) {
+                console.error("Erro ao encerrar a sessão:", logoutError);
+            }
 
             mostrarMensagem(
                 mensagem,
@@ -394,15 +401,11 @@ if (resetForm) {
             );
 
             setTimeout(() => {
-                window.location.assign("login.html");
+                window.location.assign("index.html");
             }, 1800);
         } catch (erro) {
             console.error("Erro ao redefinir senha:", erro);
-
-            mostrarMensagem(
-                mensagem,
-                traduzirErro(erro)
-            );
+            mostrarMensagem(mensagem, traduzirErro(erro));
         } finally {
             botao.disabled = false;
             botao.textContent = "Salvar nova senha";
@@ -410,10 +413,9 @@ if (resetForm) {
     });
 }
 
-
-/* ============================
-   ÁREA DO CLIENTE
-============================ */
+// ============================
+// ÁREA DO CLIENTE
+// ============================
 
 const logoutButton = document.getElementById("logoutButton");
 
@@ -427,26 +429,33 @@ if (logoutButton) {
             const { data, error } = await supabaseClient.auth.getUser();
 
             if (error || !data.user) {
-                window.location.replace("login.html");
+                window.location.replace("index.html");
                 return;
             }
 
             const usuario = data.user;
 
-            emailElemento.textContent = usuario.email || "Não informado";
-            nomeElemento.textContent =
-                usuario.user_metadata?.full_name || "Cliente";
+            if (emailElemento) {
+                emailElemento.textContent = usuario.email || "Não informado";
+            }
 
-            const { data: perfil, error: erroPerfil } =
-                await supabaseClient
-                    .from("profiles")
-                    .select("full_name")
-                    .eq("id", usuario.id)
-                    .maybeSingle();
+            if (nomeElemento) {
+                nomeElemento.textContent =
+                    usuario.user_metadata?.full_name || "Cliente";
+            }
+
+            const {
+                data: perfil,
+                error: erroPerfil
+            } = await supabaseClient
+                .from("profiles")
+                .select("full_name")
+                .eq("id", usuario.id)
+                .maybeSingle();
 
             if (erroPerfil) {
                 console.error("Erro ao carregar perfil:", erroPerfil);
-            } else if (perfil?.full_name) {
+            } else if (perfil?.full_name && nomeElemento) {
                 nomeElemento.textContent = perfil.full_name;
             }
         } catch (erro) {
@@ -468,7 +477,7 @@ if (logoutButton) {
 
             if (error) throw error;
 
-            window.location.replace("login.html");
+            window.location.replace("index.html");
         } catch (erro) {
             console.error("Erro ao sair:", erro);
 

@@ -4,21 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Cadastro | Instrumentos do Victor</title>
+
     <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
 </head>
+
 <body>
     <main class="auth-container">
+
         <section class="brand-section">
-            <a href="login.html" class="logo">
+            <a href="index.html" class="logo">
                 <span class="logo-icon">♪</span>
                 <span>INSTRUMENTOS <strong>DO VICTOR</strong></span>
             </a>
 
             <div class="brand-content">
                 <span class="eyebrow">FAÇA PARTE DA NOSSA COMUNIDADE</span>
-                <h1>Todo músico tem uma história. Comece a escrever a sua.</h1>
+
+                <h1>
+                    Todo músico tem uma história. Comece a escrever a sua.
+                </h1>
+
                 <p>
                     Cadastre-se para descobrir instrumentos,
                     explorar possibilidades e encontrar seu próximo som.
@@ -30,22 +37,27 @@
 
         <section class="form-section">
             <div class="form-wrapper">
+
                 <div class="mobile-logo">
-                    <a href="login.html" class="logo">
+                    <a href="index.html" class="logo">
                         <span class="logo-icon">♪</span>
                         <span>INSTRUMENTOS <strong>DO VICTOR</strong></span>
                     </a>
                 </div>
 
                 <span class="eyebrow">NOVO POR AQUI?</span>
+
                 <h2>Crie sua conta</h2>
+
                 <p class="form-description">
                     Preencha os dados abaixo para começar.
                 </p>
 
                 <form id="registerForm" novalidate>
+
                     <div class="field">
                         <label for="nome">Nome completo</label>
+
                         <input
                             type="text"
                             id="nome"
@@ -59,6 +71,7 @@
 
                     <div class="field">
                         <label for="email">E-mail</label>
+
                         <input
                             type="email"
                             id="email"
@@ -123,35 +136,52 @@
                     </div>
 
                     <label class="checkbox-label consent-label">
-                        <input type="checkbox" id="aceitarTermos" required>
+                        <input
+                            type="checkbox"
+                            id="aceitarTermos"
+                            required
+                        >
+
                         <span>
                             Li e aceito os <a href="#">Termos de Uso</a>
                             e a <a href="#">Política de Privacidade</a>.
                         </span>
                     </label>
 
-                    <p id="registerMessage" class="message" role="status"></p>
+                    <p
+                        id="registerMessage"
+                        class="message"
+                        role="status"
+                    ></p>
 
                     <button type="submit" class="primary-button">
                         Criar minha conta <span>→</span>
                     </button>
+
                 </form>
 
                 <p class="switch-form">
                     Já possui uma conta?
-                    <a href="login.html">Faça login</a>
+                    <a href="index.html">Faça login</a>
                 </p>
 
                 <p class="terms">
                     INSTRUMENTOS DO VICTOR · SUA JORNADA MUSICAL COMEÇA AQUI.
                 </p>
+
             </div>
         </section>
+
     </main>
-    
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-<script src="supabase-config.js" defer></script>
-<script src="script.js" defer></script>
+
+    <!-- Supabase e JavaScript da aplicação -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+        defer
+    ></script>
+
+    <script src="supabase-config.js" defer></script>
+    <script src="script.js" defer></script>
 
 </body>
 </html>

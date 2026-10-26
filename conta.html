@@ -5,27 +5,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#111111">
+
     <title>Minha conta | Instrumentos do Victor</title>
+
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+        defer
+    ></script>
+
     <script src="supabase-config.js" defer></script>
     <script src="script.js" defer></script>
 </head>
+
 <body class="account-page">
+
     <header class="account-header">
-        <a href="login.html" class="logo">
+        <a href="index.html" class="logo">
             <span class="logo-icon">♪</span>
             <span>INSTRUMENTOS <strong>DO VICTOR</strong></span>
         </a>
 
-        <button type="button" id="logoutButton" class="logout-button">
+        <button
+            type="button"
+            id="logoutButton"
+            class="logout-button"
+        >
             Sair da conta
         </button>
     </header>
 
     <main class="account-main">
+
         <span class="eyebrow">ÁREA DO CLIENTE</span>
+
         <h1>Bem-vindo à sua área musical.</h1>
+
         <p class="account-description">
             Aqui você poderá acompanhar sua conta e, futuramente,
             seus pedidos e instrumentos favoritos.
@@ -44,8 +60,14 @@
                 <p id="userEmail">Carregando...</p>
             </div>
 
-            <p id="accountMessage" class="message" role="status"></p>
+            <p
+                id="accountMessage"
+                class="message"
+                role="status"
+            ></p>
         </section>
+
     </main>
+
 </body>
 </html>

@@ -4,31 +4,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Redefinir senha | Instrumentos do Victor</title>
+
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+        defer
+    ></script>
+
     <script src="supabase-config.js" defer></script>
     <script src="script.js" defer></script>
 </head>
+
 <body>
     <main class="form-section">
         <div class="form-wrapper">
+
             <div class="mobile-logo">
-                <a href="login.html" class="logo">
+                <a href="index.html" class="logo">
                     <span class="logo-icon">♪</span>
                     <span>INSTRUMENTOS <strong>DO VICTOR</strong></span>
                 </a>
             </div>
 
             <span class="eyebrow">RECUPERAÇÃO DE CONTA</span>
+
             <h2>Crie uma nova senha</h2>
+
             <p class="form-description">
                 Informe sua nova senha para recuperar o acesso.
             </p>
 
             <form id="resetForm" novalidate>
+
                 <div class="field">
                     <label for="novaSenha">Nova senha</label>
+
                     <div class="password-wrapper">
                         <input
                             type="password"
@@ -38,16 +51,23 @@
                             placeholder="Mínimo de 8 caracteres"
                             required
                         >
+
                         <button
                             type="button"
                             class="toggle-password"
                             data-target="novaSenha"
-                        >Mostrar</button>
+                            aria-label="Mostrar senha"
+                        >
+                            Mostrar
+                        </button>
                     </div>
                 </div>
 
                 <div class="field">
-                    <label for="confirmarNovaSenha">Confirmar nova senha</label>
+                    <label for="confirmarNovaSenha">
+                        Confirmar nova senha
+                    </label>
+
                     <div class="password-wrapper">
                         <input
                             type="password"
@@ -57,24 +77,34 @@
                             placeholder="Digite novamente"
                             required
                         >
+
                         <button
                             type="button"
                             class="toggle-password"
                             data-target="confirmarNovaSenha"
-                        >Mostrar</button>
+                            aria-label="Mostrar senha"
+                        >
+                            Mostrar
+                        </button>
                     </div>
                 </div>
 
-                <p id="resetMessage" class="message" role="status"></p>
+                <p
+                    id="resetMessage"
+                    class="message"
+                    role="status"
+                ></p>
 
                 <button type="submit" class="primary-button">
                     Salvar nova senha
                 </button>
+
             </form>
 
             <p class="switch-form" style="margin-top: 24px">
-                <a href="login.html">Voltar para o login</a>
+                <a href="index.html">Voltar para o login</a>
             </p>
+
         </div>
     </main>
 </body>
