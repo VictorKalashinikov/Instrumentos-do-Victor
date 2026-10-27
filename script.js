@@ -1,3 +1,4 @@
+
 "use strict";
 
 // ============================
@@ -22,6 +23,36 @@ function emailValido(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+// ============================
+// VALIDAÇÃO DE SENHA
+// ============================
+
+function validarSenha(senha) {
+    const erros = [];
+
+    if (senha.length < 8 || senha.length > 20) {
+        erros.push("A senha deve ter entre 8 e 20 caracteres.");
+    }
+
+    if (!/[A-Z]/.test(senha)) {
+        erros.push("Inclua pelo menos uma letra maiúscula (A-Z).");
+    }
+
+    if (!/[a-z]/.test(senha)) {
+        erros.push("Inclua pelo menos uma letra minúscula (a-z).");
+    }
+
+    if (!/[0-9]/.test(senha)) {
+        erros.push("Inclua pelo menos um número (0-9).");
+    }
+
+    if (!/[^A-Za-z0-9]/.test(senha)) {
+        erros.push("Inclua pelo menos um caractere especial, como @, #, ! ou $.");
+    }
+
+    return erros;
+}
+
 function validarCampo(campo) {
     if (!campo) return true;
 
@@ -44,6 +75,18 @@ function traduzirErro(erro) {
 
     if (mensagem.includes("password should be at least")) {
         return "A senha precisa ter pelo menos 8 caracteres.";
+    }
+
+    if (
+        mensagem.includes("password") &&
+        (
+            mensagem.includes("uppercase") ||
+            mensagem.includes("lowercase") ||
+            mensagem.includes("number") ||
+            mensagem.includes("special character")
+        )
+    ) {
+        return "A senha não atende aos requisitos de segurança.";
     }
 
     if (mensagem.includes("email not confirmed")) {
@@ -143,23 +186,36 @@ if (registerForm) {
 
         if (!emailValido(email.value.trim())) {
             email.classList.add("invalid");
-            mostrarMensagem(mensagem, "Digite um e-mail válido.");
+
+            mostrarMensagem(
+                mensagem,
+                "Digite um e-mail válido."
+            );
             return;
         }
 
-        if (senha.value.length < 8) {
+        // Verifica todos os requisitos de segurança da senha.
+        const errosSenha = validarSenha(senha.value);
+
+        if (errosSenha.length > 0) {
             senha.classList.add("invalid");
 
             mostrarMensagem(
                 mensagem,
-                "A senha precisa ter pelo menos 8 caracteres."
+                errosSenha.join(" ")
             );
+
+            senha.focus();
             return;
         }
 
         if (senha.value !== confirmarSenha.value) {
             confirmarSenha.classList.add("invalid");
-            mostrarMensagem(mensagem, "As senhas não coincidem.");
+
+            mostrarMensagem(
+                mensagem,
+                "As senhas não coincidem."
+            );
             return;
         }
 
@@ -233,7 +289,11 @@ function lerTentativasLogin() {
 
         return dados && typeof dados === "object" ? dados : {};
     } catch (erro) {
-        console.error("Não foi possível ler as tentativas de login:", erro);
+        console.error(
+            "Não foi possível ler as tentativas de login:",
+            erro
+        );
+
         return {};
     }
 }
@@ -257,7 +317,10 @@ function salvarEstadoLogin(email, estado) {
             JSON.stringify(dados)
         );
     } catch (erro) {
-        console.error("Não foi possível salvar as tentativas de login:", erro);
+        console.error(
+            "Não foi possível salvar as tentativas de login:",
+            erro
+        );
     }
 }
 
@@ -293,7 +356,10 @@ function limparTentativasLogin(email) {
             JSON.stringify(dados)
         );
     } catch (erro) {
-        console.error("Não foi possível limpar as tentativas de login:", erro);
+        console.error(
+            "Não foi possível limpar as tentativas de login:",
+            erro
+        );
     }
 }
 
@@ -345,7 +411,11 @@ if (loginForm) {
 
         if (!emailValido(emailNormalizado)) {
             email.classList.add("invalid");
-            mostrarMensagem(mensagem, "Digite um e-mail válido.");
+
+            mostrarMensagem(
+                mensagem,
+                "Digite um e-mail válido."
+            );
             return;
         }
 
@@ -365,10 +435,11 @@ if (loginForm) {
         botao.textContent = "Entrando...";
 
         try {
-            const { error } = await supabaseClient.auth.signInWithPassword({
-                email: emailNormalizado,
-                password: senha.value
-            });
+            const { error } =
+                await supabaseClient.auth.signInWithPassword({
+                    email: emailNormalizado,
+                    password: senha.value
+                });
 
             if (error) throw error;
 
@@ -385,10 +456,12 @@ if (loginForm) {
         } catch (erro) {
             console.error("Erro no login:", erro);
 
-            const mensagemErro = (erro?.message || "").toLowerCase();
+            const mensagemErro =
+                (erro?.message || "").toLowerCase();
 
             if (mensagemErro.includes("invalid login credentials")) {
-                const estado = registrarFalhaLogin(emailNormalizado);
+                const estado =
+                    registrarFalhaLogin(emailNormalizado);
 
                 if (estado.bloqueadoAte > Date.now()) {
                     mostrarMensagem(
@@ -458,7 +531,11 @@ if (forgotPassword) {
                 "success"
             );
         } catch (erro) {
-            console.error("Erro ao solicitar recuperação:", erro);
+            console.error(
+                "Erro ao solicitar recuperação:",
+                erro
+            );
+
             mostrarMensagem(mensagem, traduzirErro(erro));
         }
     });
@@ -488,19 +565,28 @@ if (resetForm) {
             return;
         }
 
-        if (senha.value.length < 8) {
+        // Aplica os mesmos requisitos utilizados no cadastro.
+        const errosSenha = validarSenha(senha.value);
+
+        if (errosSenha.length > 0) {
             senha.classList.add("invalid");
 
             mostrarMensagem(
                 mensagem,
-                "A nova senha deve ter pelo menos 8 caracteres."
+                errosSenha.join(" ")
             );
+
+            senha.focus();
             return;
         }
 
         if (senha.value !== confirmar.value) {
             confirmar.classList.add("invalid");
-            mostrarMensagem(mensagem, "As senhas não coincidem.");
+
+            mostrarMensagem(
+                mensagem,
+                "As senhas não coincidem."
+            );
             return;
         }
 
@@ -508,8 +594,10 @@ if (resetForm) {
         botao.textContent = "Atualizando...";
 
         try {
-            const { data, error: sessionError } =
-                await supabaseClient.auth.getSession();
+            const {
+                data,
+                error: sessionError
+            } = await supabaseClient.auth.getSession();
 
             if (sessionError) throw sessionError;
 
@@ -519,9 +607,10 @@ if (resetForm) {
                 );
             }
 
-            const { error } = await supabaseClient.auth.updateUser({
-                password: senha.value
-            });
+            const { error } =
+                await supabaseClient.auth.updateUser({
+                    password: senha.value
+                });
 
             if (error) throw error;
 
@@ -529,7 +618,10 @@ if (resetForm) {
                 await supabaseClient.auth.signOut();
 
             if (logoutError) {
-                console.error("Erro ao encerrar a sessão:", logoutError);
+                console.error(
+                    "Erro ao encerrar a sessão:",
+                    logoutError
+                );
             }
 
             mostrarMensagem(
@@ -542,7 +634,11 @@ if (resetForm) {
                 window.location.assign("index.html");
             }, 1800);
         } catch (erro) {
-            console.error("Erro ao redefinir senha:", erro);
+            console.error(
+                "Erro ao redefinir senha:",
+                erro
+            );
+
             mostrarMensagem(mensagem, traduzirErro(erro));
         } finally {
             botao.disabled = false;
@@ -564,7 +660,8 @@ if (logoutButton) {
 
     async function carregarConta() {
         try {
-            const { data, error } = await supabaseClient.auth.getUser();
+            const { data, error } =
+                await supabaseClient.auth.getUser();
 
             if (error || !data.user) {
                 window.location.replace("index.html");
@@ -574,7 +671,8 @@ if (logoutButton) {
             const usuario = data.user;
 
             if (emailElemento) {
-                emailElemento.textContent = usuario.email || "Não informado";
+                emailElemento.textContent =
+                    usuario.email || "Não informado";
             }
 
             if (nomeElemento) {
@@ -592,12 +690,18 @@ if (logoutButton) {
                 .maybeSingle();
 
             if (erroPerfil) {
-                console.error("Erro ao carregar perfil:", erroPerfil);
+                console.error(
+                    "Erro ao carregar perfil:",
+                    erroPerfil
+                );
             } else if (perfil?.full_name && nomeElemento) {
                 nomeElemento.textContent = perfil.full_name;
             }
         } catch (erro) {
-            console.error("Erro ao carregar a conta:", erro);
+            console.error(
+                "Erro ao carregar a conta:",
+                erro
+            );
 
             mostrarMensagem(
                 mensagem,
@@ -611,7 +715,8 @@ if (logoutButton) {
         logoutButton.textContent = "Saindo...";
 
         try {
-            const { error } = await supabaseClient.auth.signOut();
+            const { error } =
+                await supabaseClient.auth.signOut();
 
             if (error) throw error;
 

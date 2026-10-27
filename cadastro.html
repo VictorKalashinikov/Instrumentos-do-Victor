@@ -90,9 +90,10 @@
                                 type="password"
                                 id="senha"
                                 name="senha"
-                                placeholder="Crie uma senha (mínimo 8 caracteres)"
+                                placeholder="Crie uma senha segura"
                                 autocomplete="new-password"
                                 minlength="8"
+                                maxlength="20"
                                 required
                             >
 
@@ -107,8 +108,16 @@
                         </div>
 
                         <small class="field-hint">
-                            Use pelo menos 8 caracteres.
+                            Sua senha deve conter:
                         </small>
+
+                        <ul class="password-requirements">
+                            <li>Pelo menos 8 caracteres e no máximo 20.</li>
+                            <li>Pelo menos uma letra maiúscula (A-Z).</li>
+                            <li>Pelo menos uma letra minúscula (a-z).</li>
+                            <li>Pelo menos um número (0-9).</li>
+                            <li>Pelo menos um caractere especial (@, #, !, $).</li>
+                        </ul>
                     </div>
 
                     <div class="field">
@@ -121,6 +130,8 @@
                                 name="confirmarSenha"
                                 placeholder="Digite a senha novamente"
                                 autocomplete="new-password"
+                                minlength="8"
+                                maxlength="20"
                                 required
                             >
 
@@ -152,6 +163,7 @@
                         id="registerMessage"
                         class="message"
                         role="status"
+                        aria-live="polite"
                     ></p>
 
                     <button type="submit" class="primary-button">
@@ -174,7 +186,6 @@
 
     </main>
 
-    <!-- Supabase e JavaScript da aplicação -->
     <script
         src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
         defer
