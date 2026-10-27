@@ -78,7 +78,7 @@ Instrumentos-do-Victor/
 
 ### 2. Segurança e validação de senhas
 
-- [ ] Verificar a quantidade mínima de caracteres da senha.
+- [X] Verificar a quantidade mínima de caracteres da senha.
 - [ ] Definir e validar a quantidade máxima de caracteres permitida.
 - [ ] Exigir pelo menos uma letra maiúscula.
 - [ ] Exigir pelo menos uma letra minúscula.
