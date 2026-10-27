@@ -103,7 +103,7 @@ Instrumentos-do-Victor/
 - [ ] Testar as permissões de acesso às informações dos usuários.
 
 ### 4. Melhorias paralelas
-- [ ] Não deixar cadastrar email sem @
+- [x] Não deixar cadastrar email sem @
 - [ ] Não deixar repetir email cadastrado
 
 
