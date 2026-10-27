@@ -102,6 +102,11 @@ Instrumentos-do-Victor/
 - [ ] Revisar acessibilidade e validação dos formulários.
 - [ ] Testar as permissões de acesso às informações dos usuários.
 
+### 4. Melhorias paralelas
+- [ ] Não deixar cadastrar email sem @
+- [ ] Não deixar repetir email cadastrado
+
+
 ## 🔐 Considerações de segurança
 
 A validação de senha no front-end melhora a experiência do usuário, mas não deve ser considerada uma medida de segurança suficiente por si só. As políticas de autenticação devem ser aplicadas pelo Supabase, e as operações no banco de dados devem ser protegidas por políticas de Row Level Security (RLS) adequadas.
