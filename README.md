@@ -102,9 +102,14 @@ Instrumentos-do-Victor/
 - [ ] Revisar acessibilidade e validação dos formulários.
 - [ ] Testar as permissões de acesso às informações dos usuários.
 
-### 4. Melhorias paralelas
+### 4. Teste de Sistemas Sesi Senai
 - [x] Não deixar cadastrar email sem @
-- [ ] Não deixar repetir email cadastrado
+- [x] Não deixar repetir email cadastrado
+- [x] Não deixar cadastrar conta se as senhas não conferirem
+- [x] Não deixar cadastrar dados inválidos
+- [x] Entrar e Sair da Conta
+- [ ] Se errar 5 vezes a senha do mesmo email, colocar um bloqueio temporário de 3 minutos
+      
 
 
 ## 🔐 Considerações de segurança
