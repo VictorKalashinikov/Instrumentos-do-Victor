@@ -1,4 +1,3 @@
-
 "use strict";
 
 // ============================
@@ -219,6 +218,106 @@ if (registerForm) {
 }
 
 // ============================
+// BLOQUEIO DE TENTATIVAS DE LOGIN
+// ============================
+
+const MAX_TENTATIVAS_LOGIN = 5;
+const DURACAO_BLOQUEIO_LOGIN = 3 * 60 * 1000;
+const CHAVE_TENTATIVAS_LOGIN = "instrumentos_tentativas_login";
+
+function lerTentativasLogin() {
+    try {
+        const dados = JSON.parse(
+            localStorage.getItem(CHAVE_TENTATIVAS_LOGIN) || "{}"
+        );
+
+        return dados && typeof dados === "object" ? dados : {};
+    } catch (erro) {
+        console.error("Não foi possível ler as tentativas de login:", erro);
+        return {};
+    }
+}
+
+function obterEstadoLogin(email) {
+    const dados = lerTentativasLogin();
+
+    return dados[email] || {
+        quantidade: 0,
+        bloqueadoAte: 0
+    };
+}
+
+function salvarEstadoLogin(email, estado) {
+    const dados = lerTentativasLogin();
+    dados[email] = estado;
+
+    try {
+        localStorage.setItem(
+            CHAVE_TENTATIVAS_LOGIN,
+            JSON.stringify(dados)
+        );
+    } catch (erro) {
+        console.error("Não foi possível salvar as tentativas de login:", erro);
+    }
+}
+
+function registrarFalhaLogin(email) {
+    const estado = obterEstadoLogin(email);
+    const agora = Date.now();
+
+    // Reinicia a contagem se o bloqueio anterior expirou.
+    if (estado.bloqueadoAte && estado.bloqueadoAte <= agora) {
+        estado.quantidade = 0;
+        estado.bloqueadoAte = 0;
+    }
+
+    estado.quantidade += 1;
+
+    if (estado.quantidade >= MAX_TENTATIVAS_LOGIN) {
+        estado.quantidade = 0;
+        estado.bloqueadoAte = agora + DURACAO_BLOQUEIO_LOGIN;
+    }
+
+    salvarEstadoLogin(email, estado);
+
+    return estado;
+}
+
+function limparTentativasLogin(email) {
+    const dados = lerTentativasLogin();
+    delete dados[email];
+
+    try {
+        localStorage.setItem(
+            CHAVE_TENTATIVAS_LOGIN,
+            JSON.stringify(dados)
+        );
+    } catch (erro) {
+        console.error("Não foi possível limpar as tentativas de login:", erro);
+    }
+}
+
+function obterTempoRestanteBloqueio(email) {
+    const estado = obterEstadoLogin(email);
+    const restante = estado.bloqueadoAte - Date.now();
+
+    if (restante <= 0 && estado.bloqueadoAte) {
+        limparTentativasLogin(email);
+        return 0;
+    }
+
+    return Math.max(0, restante);
+}
+
+function formatarTempoRestante(milissegundos) {
+    const segundos = Math.ceil(milissegundos / 1000);
+    const minutos = Math.floor(segundos / 60);
+    const segundosRestantes = segundos % 60;
+
+    return `${minutos} min e ${segundosRestantes} s`;
+}
+
+// ============================
 // LOGIN
 // ============================
 
@@ -242,9 +341,23 @@ if (loginForm) {
             return;
         }
 
-        if (!emailValido(email.value.trim())) {
+        const emailNormalizado = email.value.trim().toLowerCase();
+
+        if (!emailValido(emailNormalizado)) {
             email.classList.add("invalid");
             mostrarMensagem(mensagem, "Digite um e-mail válido.");
+            return;
+        }
+
+        // Impede nova tentativa enquanto o bloqueio estiver ativo.
+        const tempoRestante =
+            obterTempoRestanteBloqueio(emailNormalizado);
+
+        if (tempoRestante > 0) {
+            mostrarMensagem(
+                mensagem,
+                `Login temporariamente bloqueado. Tente novamente em ${formatarTempoRestante(tempoRestante)}.`
+            );
             return;
         }
 
@@ -253,11 +366,14 @@ if (loginForm) {
 
         try {
             const { error } = await supabaseClient.auth.signInWithPassword({
-                email: email.value.trim(),
+                email: emailNormalizado,
                 password: senha.value
             });
 
             if (error) throw error;
+
+            // Um login bem-sucedido zera as falhas daquele e-mail.
+            limparTentativasLogin(emailNormalizado);
 
             mostrarMensagem(
                 mensagem,
@@ -268,7 +384,29 @@ if (loginForm) {
             window.location.assign("conta.html");
         } catch (erro) {
             console.error("Erro no login:", erro);
-            mostrarMensagem(mensagem, traduzirErro(erro));
+
+            const mensagemErro = (erro?.message || "").toLowerCase();
+
+            if (mensagemErro.includes("invalid login credentials")) {
+                const estado = registrarFalhaLogin(emailNormalizado);
+
+                if (estado.bloqueadoAte > Date.now()) {
+                    mostrarMensagem(
+                        mensagem,
+                        "Você errou a senha 5 vezes. O login ficará bloqueado por 3 minutos."
+                    );
+                } else {
+                    const restantes =
+                        MAX_TENTATIVAS_LOGIN - estado.quantidade;
+
+                    mostrarMensagem(
+                        mensagem,
+                        `E-mail ou senha incorretos. Restam ${restantes} tentativa(s).`
+                    );
+                }
+            } else {
+                mostrarMensagem(mensagem, traduzirErro(erro));
+            }
         } finally {
             botao.disabled = false;
             botao.innerHTML = 'Entrar na conta <span>→</span>';
