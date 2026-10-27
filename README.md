@@ -78,7 +78,7 @@ Instrumentos-do-Victor/
 
 ### 2. Segurança e validação de senhas
 
-- [ ] Verificar a quantidade mínima de caracteres da senha.
+- [X] Verificar a quantidade mínima de caracteres da senha.
 - [ ] Definir e validar a quantidade máxima de caracteres permitida.
 - [ ] Exigir pelo menos uma letra maiúscula.
 - [ ] Exigir pelo menos uma letra minúscula.
@@ -108,7 +108,7 @@ Instrumentos-do-Victor/
 - [x] Não deixar cadastrar conta se as senhas não conferirem
 - [x] Não deixar cadastrar dados inválidos
 - [x] Entrar e Sair da Conta
-- [ ] Se errar 5 vezes a senha do mesmo email, colocar um bloqueio temporário de 3 minutos
+- [x] Se errar 5 vezes a senha do mesmo email, colocar um bloqueio temporário de 3 minutos
       
 
 
