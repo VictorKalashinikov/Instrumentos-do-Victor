@@ -107,7 +107,7 @@ Instrumentos-do-Victor/
 - [x] Não deixar repetir email cadastrado
 - [x] Não deixar cadastrar conta se as senhas não conferirem
 - [x] Não deixar cadastrar dados inválidos
-- [ ] Entrar e Sair da Conta
+- [x] Entrar e Sair da Conta
       
 
 
