@@ -736,3 +736,237 @@ if (logoutButton) {
 
     carregarConta();
 }
+
+
+/* ==========================
+   PÁGINA DE VENDAS
+========================== */
+
+const storeMenuToggle = document.getElementById("storeMenuToggle");
+const storeNavigation = document.getElementById("storeNavigation");
+
+if (storeMenuToggle && storeNavigation) {
+    storeMenuToggle.addEventListener("click", () => {
+        const aberto = storeNavigation.classList.toggle("is-open");
+
+        storeMenuToggle.setAttribute("aria-expanded", String(aberto));
+        storeMenuToggle.setAttribute(
+            "aria-label",
+            aberto ? "Fechar menu" : "Abrir menu"
+        );
+
+        storeMenuToggle.textContent = aberto ? "×" : "☰";
+    });
+
+    storeNavigation.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+            storeNavigation.classList.remove("is-open");
+            storeMenuToggle.setAttribute("aria-expanded", "false");
+            storeMenuToggle.setAttribute("aria-label", "Abrir menu");
+            storeMenuToggle.textContent = "☰";
+        });
+    });
+}
+
+/* ==========================
+   CARROSSEL DE PRODUTOS
+========================== */
+
+const productTrack = document.getElementById("productTrack");
+const carouselPrev = document.getElementById("carouselPrev");
+const carouselNext = document.getElementById("carouselNext");
+
+function moverCarrossel(direcao) {
+    if (!productTrack) return;
+
+    const primeiroProduto = productTrack.querySelector(".product-card");
+
+    if (!primeiroProduto) return;
+
+    const estilos = window.getComputedStyle(productTrack);
+    const gap = parseFloat(estilos.columnGap) || 0;
+    const largura = primeiroProduto.getBoundingClientRect().width + gap;
+
+    productTrack.scrollBy({
+        left: largura * direcao,
+        behavior: "smooth"
+    });
+}
+
+if (carouselPrev) {
+    carouselPrev.addEventListener("click", () => {
+        moverCarrossel(-1);
+    });
+}
+
+if (carouselNext) {
+    carouselNext.addEventListener("click", () => {
+        moverCarrossel(1);
+    });
+}
+
+/* ==========================
+   CARRINHO LOCAL
+========================== */
+
+const CHAVE_CARRINHO = "instrumentos_victor_carrinho";
+
+function lerCarrinho() {
+    try {
+        const dados = JSON.parse(
+            localStorage.getItem(CHAVE_CARRINHO) || "[]"
+        );
+
+        return Array.isArray(dados) ? dados : [];
+    } catch (erro) {
+        console.error("Erro ao ler o carrinho:", erro);
+        return [];
+    }
+}
+
+function salvarCarrinho(carrinho) {
+    try {
+        localStorage.setItem(
+            CHAVE_CARRINHO,
+            JSON.stringify(carrinho)
+        );
+
+        return true;
+    } catch (erro) {
+        console.error("Erro ao salvar o carrinho:", erro);
+        return false;
+    }
+}
+
+function atualizarQuantidadeCarrinho() {
+    const cartCount = document.getElementById("cartCount");
+
+    if (!cartCount) return;
+
+    const carrinho = lerCarrinho();
+
+    const quantidade = carrinho.reduce(
+        (total, produto) => total + produto.quantidade,
+        0
+    );
+
+    cartCount.textContent = quantidade;
+    cartCount.setAttribute(
+        "aria-label",
+        `${quantidade} ${quantidade === 1 ? "item" : "itens"} no carrinho`
+    );
+}
+
+function adicionarAoCarrinho(nome, preco) {
+    const carrinho = lerCarrinho();
+
+    const produtoExistente = carrinho.find(
+        (produto) => produto.nome === nome
+    );
+
+    if (produtoExistente) {
+        produtoExistente.quantidade += 1;
+    } else {
+        carrinho.push({
+            nome,
+            preco,
+            quantidade: 1
+        });
+    }
+
+    if (!salvarCarrinho(carrinho)) {
+        mostrarMensagem(
+            document.getElementById("cartFeedback"),
+            "Não foi possível salvar o carrinho. Verifique o armazenamento do navegador."
+        );
+
+        return;
+    }
+
+    atualizarQuantidadeCarrinho();
+
+    const cartFeedback = document.getElementById("cartFeedback");
+
+    if (cartFeedback) {
+        cartFeedback.textContent = `${nome} adicionado ao carrinho.`;
+    }
+}
+
+document.querySelectorAll(".add-cart-button").forEach((botao) => {
+    botao.addEventListener("click", () => {
+        const nome = botao.dataset.product;
+        const preco = Number(botao.dataset.price);
+
+        if (!nome || !Number.isFinite(preco) || preco < 0) {
+            return;
+        }
+
+        adicionarAoCarrinho(nome, preco);
+    });
+});
+
+const cartButton = document.getElementById("cartButton");
+
+if (cartButton) {
+    cartButton.addEventListener("click", () => {
+        const carrinho = lerCarrinho();
+
+        if (carrinho.length === 0) {
+            alert("Seu carrinho está vazio.");
+            return;
+        }
+
+        const resumo = carrinho.map((produto) => {
+            const subtotal = produto.preco * produto.quantidade;
+
+            return `${produto.nome} — ${produto.quantidade} un. — ${
+                subtotal.toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL"
+                })
+            }`;
+        });
+
+        const total = carrinho.reduce(
+            (soma, produto) =>
+                soma + produto.preco * produto.quantidade,
+            0
+        );
+
+        alert(
+            "SEU CARRINHO\n\n" +
+            resumo.join("\n") +
+            "\n\nTotal: " +
+            total.toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL"
+            }) +
+            "\n\nO checkout ainda precisa ser implementado."
+        );
+    });
+}
+
+/* ==========================
+   ANO DO RODAPÉ
+========================== */
+
+const currentYear = document.getElementById("currentYear");
+
+if (currentYear) {
+    currentYear.textContent = new Date().getFullYear();
+}
+
+/* ==========================
+   MENSAGEM AUXILIAR
+========================== */
+
+function mostrarMensagem(elemento, texto, tipo = "error") {
+    if (!elemento) return;
+
+    elemento.textContent = texto;
+    elemento.className = tipo === "success"
+        ? "cart-feedback"
+        : "cart-feedback";
+}
+
+atualizarQuantidadeCarrinho();

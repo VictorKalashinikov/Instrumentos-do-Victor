@@ -1,0 +1,302 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#111111">
+
+    <meta name="description" content="Encontre guitarras, violões, teclados e outros instrumentos musicais na Instrumentos do Victor.">
+
+    <title>Instrumentos | Instrumentos do Victor</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script src="supabase-config.js" defer></script>
+    <script src="script.js" defer></script>
+</head>
+
+<body class="store-page">
+
+    <!-- HEADER -->
+    <header class="store-header">
+        <a href="instrumentos.html" class="logo" aria-label="Instrumentos do Victor - Início">
+            <span class="logo-icon">♪</span>
+            <span>INSTRUMENTOS <strong>DO VICTOR</strong></span>
+        </a>
+
+        <button
+            class="store-menu-toggle"
+            id="storeMenuToggle"
+            type="button"
+            aria-label="Abrir menu"
+            aria-expanded="false"
+            aria-controls="storeNavigation"
+        >
+            ☰
+        </button>
+
+        <nav class="store-navigation" id="storeNavigation" aria-label="Navegação principal">
+            <a href="instrumentos.html" class="active">Início</a>
+            <a href="#produtos">Produtos</a>
+            <a href="#sobre">Sobre</a>
+            <a href="#contato">Contato</a>
+        </nav>
+
+        <div class="store-actions">
+            <button
+                type="button"
+                class="cart-button"
+                id="cartButton"
+                aria-label="Carrinho de compras"
+            >
+                <span aria-hidden="true">🛒</span>
+                <span>Carrinho</span>
+                <span class="cart-count" id="cartCount">0</span>
+            </button>
+
+            <a href="index.html" class="account-button" id="accountButton">
+                Minha conta
+            </a>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- HERO -->
+        <section class="store-hero" id="inicio">
+            <div class="hero-content">
+                <span class="eyebrow">SINTA. TOQUE. CRIE.</span>
+
+                <h1>
+                    O som que você procura.
+                    <span>O instrumento certo.</span>
+                </h1>
+
+                <p>
+                    Explore nossa seleção de instrumentos musicais
+                    e encontre o parceiro ideal para sua próxima criação.
+                </p>
+
+                <a href="#produtos" class="store-primary-button">
+                    Ver instrumentos <span aria-hidden="true">→</span>
+                </a>
+            </div>
+
+            <div class="hero-indicator" aria-hidden="true">
+                <span></span>
+                SUA PRÓXIMA HISTÓRIA COMEÇA AQUI
+            </div>
+        </section>
+
+        <!-- CATÁLOGO -->
+        <section class="store-products section-container" id="produtos">
+
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">NOSSA SELEÇÃO</span>
+                    <h2>Encontre seu próximo som.</h2>
+                    <p>Instrumentos para quem está começando e para quem já vive música.</p>
+                </div>
+
+                <a href="#catalogo-completo" class="view-all-link">
+                    Ver todos os instrumentos <span aria-hidden="true">→</span>
+                </a>
+            </div>
+
+            <!-- CARROSSEL -->
+            <div class="product-carousel">
+
+                <button
+                    type="button"
+                    class="carousel-arrow carousel-prev"
+                    aria-label="Produtos anteriores"
+                    id="carouselPrev"
+                >
+                    &#8592;
+                </button>
+
+                <div
+                    class="product-track"
+                    id="productTrack"
+                    aria-label="Instrumentos em destaque"
+                >
+
+                    <article class="product-card">
+                        <a href="#contato" class="product-image">
+                            <img
+                                src="https://images.unsplash.com/photo-1564186763535-ebb21ef5277f?auto=format&fit=crop&w=700&q=85"
+                                alt="Guitarra elétrica"
+                                loading="lazy"
+                            >
+                            <span class="product-category">Cordas</span>
+                        </a>
+
+                        <div class="product-info">
+                            <h3>Guitarra Elétrica</h3>
+                            <p>Versatilidade para criar seu próprio estilo.</p>
+
+                            <div class="product-bottom">
+                                <span class="product-price">R$ 1.499,90</span>
+
+                                <button
+                                    type="button"
+                                    class="add-cart-button"
+                                    data-product="Guitarra Elétrica"
+                                    data-price="1499.90"
+                                >
+                                    + Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="product-card">
+                        <a href="#contato" class="product-image">
+                            <img
+                                src="https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&w=700&q=85"
+                                alt="Violão acústico"
+                                loading="lazy"
+                            >
+                            <span class="product-category">Cordas</span>
+                        </a>
+
+                        <div class="product-info">
+                            <h3>Violão Acústico</h3>
+                            <p>Um clássico para acompanhar suas melodias.</p>
+
+                            <div class="product-bottom">
+                                <span class="product-price">R$ 699,90</span>
+
+                                <button
+                                    type="button"
+                                    class="add-cart-button"
+                                    data-product="Violão Acústico"
+                                    data-price="699.90"
+                                >
+                                    + Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="product-card">
+                        <a href="#contato" class="product-image">
+                            <img
+                                src="https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?auto=format&fit=crop&w=700&q=85"
+                                alt="Piano musical"
+                                loading="lazy"
+                            >
+                            <span class="product-category">Teclas</span>
+                        </a>
+
+                        <div class="product-info">
+                            <h3>Teclado Musical</h3>
+                            <p>Explore novos timbres e possibilidades.</p>
+
+                            <div class="product-bottom">
+                                <span class="product-price">R$ 1.199,90</span>
+
+                                <button
+                                    type="button"
+                                    class="add-cart-button"
+                                    data-product="Teclado Musical"
+                                    data-price="1199.90"
+                                >
+                                    + Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="product-card">
+                        <a href="#contato" class="product-image">
+                            <img
+                                src="https://images.unsplash.com/photo-1519892300165-cb5542fb47c7?auto=format&fit=crop&w=700&q=85"
+                                alt="Bateria musical"
+                                loading="lazy"
+                            >
+                            <span class="product-category">Percussão</span>
+                        </a>
+
+                        <div class="product-info">
+                            <h3>Bateria Musical</h3>
+                            <p>Ritmo e presença para qualquer composição.</p>
+
+                            <div class="product-bottom">
+                                <span class="product-price">R$ 2.499,90</span>
+
+                                <button
+                                    type="button"
+                                    class="add-cart-button"
+                                    data-product="Bateria Musical"
+                                    data-price="2499.90"
+                                >
+                                    + Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="carousel-arrow carousel-next"
+                    aria-label="Próximos produtos"
+                    id="carouselNext"
+                >
+                    &#8594;
+                </button>
+            </div>
+
+            <p class="cart-feedback" id="cartFeedback" role="status" aria-live="polite"></p>
+
+            <div class="catalog-cta" id="catalogo-completo">
+                <a href="#produtos" class="store-outline-button">
+                    Ver todos os instrumentos
+                </a>
+            </div>
+
+        </section>
+
+        <!-- SOBRE -->
+        <section class="store-about" id="sobre">
+            <div class="section-container about-content">
+                <span class="eyebrow">INSTRUMENTOS DO VICTOR</span>
+
+                <h2>Mais do que instrumentos. <span>Possibilidades.</span></h2>
+
+                <p>
+                    A música começa com uma ideia. Nosso objetivo é ajudar você
+                    a encontrar os instrumentos para transformar essa ideia em som.
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="store-footer" id="contato">
+        <a href="instrumentos.html" class="logo">
+            <span class="logo-icon">♪</span>
+            <span>INSTRUMENTOS <strong>DO VICTOR</strong></span>
+        </a>
+
+        <p>Seu próximo som começa aqui.</p>
+
+        <div class="footer-links">
+            <a href="#inicio">Início</a>
+            <a href="#produtos">Produtos</a>
+            <a href="#sobre">Sobre</a>
+        </div>
+
+        <p class="copyright">
+            &copy; <span id="currentYear"></span> Instrumentos do Victor.
+            Todos os direitos reservados.
+        </p>
+    </footer>
+
+</body>
+</html>
