@@ -110,6 +110,12 @@ Instrumentos-do-Victor/
 - [x] Entrar e Sair da Conta
 - [x] Se errar 5 vezes a senha do mesmo email, colocar um bloqueio temporário de 3 minutos
 - [ ] Página de Vendas (carrosel de produto, hero, cards)
+- [ ] header (logo, inicio, produtos, sobre, contato, carrinho, entrar)
+- [ ] hero (ver instrumentos, testo, imagem de fundo)
+- [ ] cards(titulo, testo, valor, imagem, )
+- [ ] ver todas as plantas
+- [ ] footer com copyright
+      
       
 
 
