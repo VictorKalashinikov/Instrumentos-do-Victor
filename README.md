@@ -109,6 +109,7 @@ Instrumentos-do-Victor/
 - [x] Não deixar cadastrar dados inválidos
 - [x] Entrar e Sair da Conta
 - [x] Se errar 5 vezes a senha do mesmo email, colocar um bloqueio temporário de 3 minutos
+- [ ] Página de Vendas (carrosel de produto, hero, cards)
       
 
 
